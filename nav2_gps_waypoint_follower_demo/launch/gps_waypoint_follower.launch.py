@@ -31,7 +31,7 @@ def generate_launch_description():
         "nav2_gps_waypoint_follower_demo")
     launch_dir = os.path.join(gps_wpf_dir, 'launch')
     params_dir = os.path.join(gps_wpf_dir, "config")
-    nav2_params = os.path.join(params_dir, "nav2_no_map_params.yaml")
+    nav2_params = os.path.join(params_dir, "nav2_params.yaml")
     configured_params = RewrittenYaml(
         source_file=nav2_params, root_key="", param_rewrites="", convert_types=True
     )
@@ -41,7 +41,7 @@ def generate_launch_description():
 
     declare_use_rviz_cmd = DeclareLaunchArgument(
         'use_rviz',
-        default_value='False',
+        default_value='True',
         description='Whether to start RVIZ')
 
     declare_use_mapviz_cmd = DeclareLaunchArgument(
@@ -61,7 +61,7 @@ def generate_launch_description():
 
     navigation2_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(bringup_dir, "launch", "navigation_launch.py")
+            os.path.join(launch_dir, "no_map_navigation_launch.py")
         ),
         launch_arguments={
             "use_sim_time": "True",
@@ -92,7 +92,7 @@ def generate_launch_description():
     ld.add_action(robot_localization_cmd)
 
     # navigation2 launch
-    ld.add_action(navigation2_cmd)
+    #ld.add_action(navigation2_cmd)
 
     # viz launch
     ld.add_action(declare_use_rviz_cmd)
